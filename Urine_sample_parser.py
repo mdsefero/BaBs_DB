@@ -30,7 +30,7 @@ def openf():
     global firstline   ### Unhash for headers. 
     csv = []
     with open (file[0], 'r') as f:
-        firstline = 'subject#,visit_num,lowest_available_aliquot,site,' + f.readline().strip('\n')  + ',exracted cousin?,Delivery Classification,Delivery_route' ### Unhash for headers. 
+        firstline = 'subject#,visit_num,lowest_available_aliquot,site,' + f.readline().strip('\n')  + ',exracted cousin?,Delivery Classification,Type_of_labor,Delivery_route' ### Unhash for headers. 
         for line in f:
             newline = ''.join(line.split())
             csv.append(newline)
@@ -141,12 +141,12 @@ Enter the metadata file name to add delivery information >>> """)
     with open (metafile, 'r') as f:
         next(f)
         for line in f:
-            line = line.split(',')
-            inmd[(re.sub('\D', '', line[0]))] = [line[7].strip(), line[15].strip()]
+            line = line.split('\t')
+            inmd[(re.sub('\D', '', line[0]))] = [line[7].strip(), line[8].strip(), line[15].strip()]
 
     for k,v in data.items():
         try: metadata = inmd[k[:-1]]
-        except: metadata = ['Not in metadata','Not in metadata']
+        except: metadata = ['Not in metadata']
         data[k] = v + metadata
 
     for v in data.values(): outdata.append(",".join(v))
